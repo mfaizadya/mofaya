@@ -25,12 +25,18 @@ export const Navbar: React.FC = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
 
+      // Check bottom of page first for last section (Sertifikasi)
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 150) {
+        setActiveSection('#certifications');
+        return;
+      }
+
       const sections = navItems.map((item) => item.href.substring(1));
       const current = sections.find((sec) => {
         const el = document.getElementById(sec);
         if (el) {
           const rect = el.getBoundingClientRect();
-          return rect.top <= 140 && rect.bottom >= 140;
+          return rect.top <= 180 && rect.bottom >= 140;
         }
         return false;
       });
@@ -48,18 +54,20 @@ export const Navbar: React.FC = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 px-4 sm:px-6 pt-4 transition-all duration-300">
       <div
-        className={`max-w-5xl mx-auto rounded-full transition-all duration-300 ${
-          isScrolled
+        className={`max-w-5xl mx-auto rounded-full transition-all duration-300 ${isScrolled
             ? 'bg-[#141518]/90 backdrop-blur-md border border-[#4A4A4A]/80 shadow-2xl py-2.5 px-5'
             : 'bg-[#141518]/60 backdrop-blur-sm border border-[#4A4A4A]/50 py-3 px-6'
-        }`}
+          }`}
       >
         <div className="flex items-center justify-between">
           {/* Logo */}
           <a
             href="#home"
             className="flex items-center gap-2.5 group font-mono font-medium text-sm tracking-tight"
-            onClick={() => setIsMobileMenuOpen(false)}
+            onClick={() => {
+              setActiveSection('#home');
+              setIsMobileMenuOpen(false);
+            }}
           >
             <div className="w-8 h-8 rounded-lg bg-[#1D1E22] border border-[#4A4A4A] flex items-center justify-center text-[#FFFFE3] group-hover:border-[#6D8196] transition-colors">
               <Terminal size={16} />
@@ -71,7 +79,7 @@ export const Navbar: React.FC = () => {
               speed={0.35}
               scrambleChars=".:"
             >
-              mofaya.dev
+              mofaya.me
             </ScrambledText>
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-[#FFFFE3] animate-pulse" />
           </a>
@@ -84,11 +92,11 @@ export const Navbar: React.FC = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  className={`px-4 py-1.5 rounded-full text-xs font-mono font-medium transition-all duration-200 ${
-                    isActive
+                  onClick={() => setActiveSection(item.href)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-mono font-medium transition-all duration-200 ${isActive
                       ? 'bg-[#FFFFE3] text-[#141518] shadow-md font-bold'
                       : 'text-[#CBCBCB] hover:text-[#FFFFE3] hover:bg-[#1D1E22]'
-                  }`}
+                    }`}
                 >
                   {item.label}
                 </a>
@@ -117,12 +125,14 @@ export const Navbar: React.FC = () => {
                 <a
                   key={item.href}
                   href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className={`px-4 py-3 rounded-2xl text-sm font-mono transition-all flex items-center justify-between ${
-                    isActive
+                  onClick={() => {
+                    setActiveSection(item.href);
+                    setIsMobileMenuOpen(false);
+                  }}
+                  className={`px-4 py-3 rounded-2xl text-sm font-mono transition-all flex items-center justify-between ${isActive
                       ? 'bg-[#FFFFE3] text-[#141518] font-bold shadow-md'
                       : 'text-[#CBCBCB] hover:text-[#FFFFE3] hover:bg-[#1D1E22]'
-                  }`}
+                    }`}
                 >
                   <span>{item.label}</span>
                   {isActive && <span className="w-2 h-2 rounded-full bg-[#141518]" />}
