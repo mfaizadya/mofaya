@@ -1,0 +1,14 @@
+.scrambled-text {
+  display: inline-flex;
+}
+
+.scrambled-text .char {
+  display: inline-block;
+  will-change: contents;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrambled-text .char {
+    will-change: auto;
+  }
+}
