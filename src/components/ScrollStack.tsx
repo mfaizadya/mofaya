@@ -270,6 +270,11 @@ export const ScrollStack = ({
     const scroller = scrollerRef.current;
     if (!scroller) return;
 
+    // ponytail: reset scroll position on children (e.g. category filter) change
+    if (!useWindowScroll) {
+      scroller.scrollTop = 0;
+    }
+
     const cards = Array.from(
       useWindowScroll
         ? document.querySelectorAll('.scroll-stack-card')
@@ -278,6 +283,7 @@ export const ScrollStack = ({
 
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
+    transformsCache.clear();
 
     cards.forEach((card, i) => {
       if (i < cards.length - 1) {
@@ -311,6 +317,7 @@ export const ScrollStack = ({
       isUpdatingRef.current = false;
     };
   }, [
+    children,
     itemDistance,
     itemScale,
     itemStackDistance,
