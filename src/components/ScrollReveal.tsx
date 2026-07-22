@@ -29,8 +29,8 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
   blurStrength = 4,
   containerClassName = '',
   textClassName = '',
-  rotationEnd = 'top 60%',
-  wordAnimationEnd = 'top 60%',
+  rotationEnd = 'top 80%',
+  wordAnimationEnd = 'top 80%',
   as: Component = 'h2'
 }) => {
   const containerRef = useRef<HTMLElement | null>(null);
@@ -67,7 +67,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
         scrollTrigger: {
           trigger: el,
           scroller,
-          start: 'top 88%',
+          start: 'top 96%',
           end: rotationEnd,
           scrub: 1
         }
@@ -87,7 +87,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
         scrollTrigger: {
           trigger: el,
           scroller,
-          start: 'top 88%',
+          start: 'top 96%',
           end: wordAnimationEnd,
           scrub: 1
         }
@@ -106,7 +106,7 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
           scrollTrigger: {
             trigger: el,
             scroller,
-            start: 'top 88%',
+            start: 'top 96%',
             end: wordAnimationEnd,
             scrub: 1
           }

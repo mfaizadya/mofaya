@@ -34,6 +34,8 @@ export interface TextPressureProps {
   scale?: boolean;
   textColor?: string;
   strokeColor?: string;
+  gradient?: boolean;
+  gradientColors?: string;
   className?: string;
   minFontSize?: number;
 }
@@ -54,6 +56,8 @@ export const TextPressure: React.FC<TextPressureProps> = ({
 
   textColor = '#FFFFFF',
   strokeColor = '#FF0000',
+  gradient = false,
+  gradientColors = 'linear-gradient(135deg, #FFFFE3 0%, #A1B8D6 55%, #8DA4BE 100%)',
   className = '',
 
   minFontSize = 24,
@@ -202,11 +206,16 @@ export const TextPressure: React.FC<TextPressureProps> = ({
         }
 
         .text-pressure-title {
-          color: ${textColor};
+          color: ${gradient ? 'transparent' : textColor};
+          ${gradient ? `
+          background: ${gradientColors};
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          ` : ''}
         }
       `}</style>
     );
-  }, [fontFamily, fontUrl, textColor, strokeColor]);
+  }, [fontFamily, fontUrl, textColor, strokeColor, gradient, gradientColors]);
 
   const dynamicClassName = [className, flex ? 'text-pressure-flex' : '', stroke ? 'stroke' : ''].filter(Boolean).join(' ');
 
@@ -248,7 +257,7 @@ export const TextPressure: React.FC<TextPressureProps> = ({
             data-char={char}
             style={{
               display: 'inline-block',
-              color: stroke ? undefined : textColor,
+              color: stroke || gradient ? undefined : textColor,
             }}
           >
             {char === ' ' ? '\u00A0' : char}

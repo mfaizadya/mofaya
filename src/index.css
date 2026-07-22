@@ -1,20 +1,41 @@
 @import "tailwindcss";
 
+:root {
+  --theme-bg: #0D0E10;
+  --theme-surface: #141518;
+  --theme-card: #1D1E22;
+  --theme-border: #4A4A4A;
+  --theme-text: #CBCBCB;
+  --theme-accent-warm: #FFFFE3;
+  --theme-accent-blue: #8DA4BE;
+  color-scheme: dark;
+}
+
+:root.light, html.light {
+  --theme-bg: #F8FAFC;
+  --theme-surface: #FFFFFF;
+  --theme-card: #F1F5F9;
+  --theme-border: #CBD5E1;
+  --theme-text: #475569;
+  --theme-accent-warm: #0F172A;
+  --theme-accent-blue: #2563EB;
+  color-scheme: light;
+}
+
 @theme {
-  --color-ink-bg: #0D0E10;
-  --color-ink-surface: #141518;
-  --color-ink-card: #1D1E22;
-  --color-ink-charcoal: #4A4A4A;
-  --color-ink-silver: #CBCBCB;
-  --color-ink-ivory: #FFFFE3;
-  --color-ink-blue: #8DA4BE;
+  --color-ink-bg: var(--theme-bg);
+  --color-ink-surface: var(--theme-surface);
+  --color-ink-card: var(--theme-card);
+  --color-ink-charcoal: var(--theme-border);
+  --color-ink-silver: var(--theme-text);
+  --color-ink-ivory: var(--theme-accent-warm);
+  --color-ink-blue: var(--theme-accent-blue);
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    color-scheme: dark;
   }
 
   body {
@@ -24,12 +45,16 @@
     overflow-x: hidden;
     margin: 0;
   }
+
+  button {
+    cursor: pointer;
+  }
 }
 
 .portfolio-shell {
   position: relative;
   isolation: isolate;
-  background: #0D0E10;
+  background: var(--theme-bg);
 }
 
 .portfolio-grainient {
@@ -41,8 +66,17 @@
   background:
     radial-gradient(ellipse 65% 55% at 82% 18%, rgb(141 164 190 / 60%), transparent 70%),
     radial-gradient(ellipse 50% 45% at 18% 82%, rgb(74 74 74 / 90%), transparent 72%),
-    linear-gradient(135deg, #0D0E10 12%, #252a31 54%, #0D0E10 100%);
+    linear-gradient(135deg, var(--theme-bg) 12%, var(--theme-surface) 54%, var(--theme-bg) 100%);
   filter: saturate(1.10) contrast(1.05);
+}
+
+.light .portfolio-grainient {
+  opacity: 0.82;
+  background:
+    radial-gradient(ellipse 65% 55% at 82% 18%, rgb(61 90 128 / 30%), transparent 70%),
+    radial-gradient(ellipse 50% 45% at 18% 82%, rgb(252 239 186 / 60%), transparent 72%),
+    linear-gradient(135deg, var(--theme-bg) 12%, var(--theme-card) 54%, var(--theme-bg) 100%);
+  filter: saturate(1.15) contrast(1.08);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -50,7 +84,13 @@
     background:
       radial-gradient(ellipse 65% 55% at 82% 18%, rgb(141 164 190 / 60%), transparent 70%),
       radial-gradient(ellipse 50% 45% at 18% 82%, rgb(74 74 74 / 90%), transparent 72%),
-      linear-gradient(135deg, #0D0E10 12%, #252a31 54%, #0D0E10 100%);
+      linear-gradient(135deg, var(--theme-bg) 12%, var(--theme-surface) 54%, var(--theme-bg) 100%);
+  }
+  .light .portfolio-grainient {
+    background:
+      radial-gradient(ellipse 65% 55% at 82% 18%, rgb(61 90 128 / 30%), transparent 70%),
+      radial-gradient(ellipse 50% 45% at 18% 82%, rgb(252 239 186 / 60%), transparent 72%),
+      linear-gradient(135deg, var(--theme-bg) 12%, var(--theme-card) 54%, var(--theme-bg) 100%);
   }
 }
 
@@ -59,14 +99,14 @@
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0D0E10;
+  background: var(--theme-bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #4A4A4A;
+  background: var(--theme-border);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #8DA4BE;
+  background: var(--theme-accent-blue);
 }
 
 @keyframes marquee {

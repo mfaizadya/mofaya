@@ -44,8 +44,8 @@ export const ContentReveal: React.FC<ContentRevealProps> = ({
         ease: 'power3.out',
         scrollTrigger: {
           trigger: el,
-          start: 'top 92%',
-          toggleActions: 'play none none reverse',
+          start: 'top 96%',
+          toggleActions: 'play none none none',
         },
       }
     );

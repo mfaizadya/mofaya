@@ -190,6 +190,18 @@ export const PORTFOLIO_DATA = {
       ]
     },
     {
+      id: "lab-assistant",
+      role: "Practicum Assistant",
+      organization: "Telkom University · Faculty of Informatics",
+      type: "Academic Assistantship",
+      period: "2025 – Sekarang",
+      description: "Membimbing mahasiswa dalam sesi praktikum pemrograman serta membantu evaluasi pemahaman konsep rekayasa perangkat lunak dan algoritma sistem.",
+      highlights: [
+        "Membimbing sesi praktikum rutin dan memberikan asistensi teknis pemrograman kepada puluhan mahasiswa.",
+        "Mengevaluasi kode tugas laboratorium (*code review*) dan memberikan masukan konstruktif terkait clean code serta struktur algoritma."
+      ]
+    },
+    {
       id: "asah-dicoding",
       role: "React & Back-End with AI Cohort · Project Manager Capstone",
       organization: "Asah led by Dicoding",

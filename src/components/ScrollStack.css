@@ -12,6 +12,17 @@
   will-change: scroll-position;
 }
 
+.scroll-stack-scroller--window {
+  overflow-y: visible !important;
+  overflow-x: visible !important;
+  height: auto !important;
+  overscroll-behavior: auto !important;
+}
+
+.scroll-stack-scroller--window .scroll-stack-inner {
+  padding-bottom: 28vh !important;
+}
+
 .scroll-stack-inner {
   /* ponytail: top padding adjusted so card starts higher and has plenty of bottom breathing room */
   padding: 8vh 0 6rem;

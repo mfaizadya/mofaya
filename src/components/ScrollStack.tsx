@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useCallback, type ReactNode } from 'react';
 import Lenis from 'lenis';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ScrollStack.css';
 
 // ponytail: faithful TS port of the React Bits ScrollStack component.
@@ -87,8 +88,13 @@ export const ScrollStack = ({
   const getElementOffset = useCallback(
     (element: HTMLElement) => {
       if (useWindowScroll) {
-        const rect = element.getBoundingClientRect();
-        return rect.top + window.scrollY;
+        let top = 0;
+        let current: HTMLElement | null = element;
+        while (current) {
+          top += current.offsetTop;
+          current = current.offsetParent as HTMLElement | null;
+        }
+        return top;
       } else {
         return element.offsetTop;
       }
@@ -222,7 +228,12 @@ export const ScrollStack = ({
         syncTouchLerp: 0.075
       });
 
-      lenis.on('scroll', handleScroll);
+      lenis.on('scroll', () => {
+        handleScroll();
+        ScrollTrigger.update();
+      });
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleScroll);
 
       const raf = (time: number) => {
         lenis.raf(time);
@@ -253,7 +264,10 @@ export const ScrollStack = ({
         touchInertia: 0.6
       } as any);
 
-      lenis.on('scroll', handleScroll);
+      lenis.on('scroll', () => {
+        handleScroll();
+        ScrollTrigger.update();
+      });
 
       const raf = (time: number) => {
         lenis.raf(time);
@@ -304,13 +318,20 @@ export const ScrollStack = ({
 
     updateCardTransforms();
 
+    const refreshTimer = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 300);
+
     return () => {
+      clearTimeout(refreshTimer);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
       if (lenisRef.current) {
         lenisRef.current.destroy();
       }
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
       stackCompletedRef.current = false;
       cardsRef.current = [];
       transformsCache.clear();
@@ -334,7 +355,7 @@ export const ScrollStack = ({
   ]);
 
   return (
-    <div className={`scroll-stack-scroller ${className}`.trim()} ref={scrollerRef}>
+    <div className={`scroll-stack-scroller ${useWindowScroll ? 'scroll-stack-scroller--window' : ''} ${className}`.trim()} ref={scrollerRef}>
       <div className="scroll-stack-inner">
         {children}
         <div className="scroll-stack-end" />
