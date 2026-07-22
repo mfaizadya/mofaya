@@ -13,16 +13,16 @@ export const AchievementsSection: React.FC = () => {
     <section id="achievements" className="py-12 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#4A4A4A]/40 relative">
       {/* Section Header */}
       <div className="mb-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#141518] border border-[#4A4A4A] mb-3">
-          <Trophy size={14} className="text-[#FFFFE3]" />
-          <span className="text-xs font-mono text-[#CBCBCB]">HONORS &amp; RECOGNITION</span>
+        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-[#141518] border border-[#4A4A4A] mb-4">
+          <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-[#8DA4BE]" />
+          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-[#FFFFE3] tracking-wide">HONORS &amp; RECOGNITION</span>
         </div>
         <ScrollReveal
           as="h2"
           baseOpacity={0.05}
           baseRotation={5}
           blurStrength={10}
-          textClassName="text-3xl sm:text-4xl font-extrabold text-[#FFFFE3] tracking-tight"
+          textClassName="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-[#FFFFE3] tracking-tight leading-none mt-1"
         >
           Prestasi &amp; Penghargaan
         </ScrollReveal>
@@ -41,25 +41,25 @@ export const AchievementsSection: React.FC = () => {
               <div>
                 {/* Header tags: Year & Award badge */}
                 <div className="flex items-center justify-between gap-2 mb-4">
-                  <span className="px-2.5 py-1 rounded bg-[#1D1E22] text-[#6D8196] text-xs font-mono border border-[#4A4A4A]/40">
+                  <span className="px-2.5 py-1 rounded bg-[#1D1E22] text-[#A1B8D6] text-xs sm:text-sm font-mono font-bold border border-[#4A4A4A]/40">
                     {item.year}
                   </span>
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFFFE3]/10 border border-[#FFFFE3]/20 text-[#FFFFE3] text-[11px] font-mono font-bold tracking-wide">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#FFFFE3]/10 border border-[#FFFFE3]/20 text-[#FFFFE3] text-xs sm:text-sm font-mono font-bold tracking-wide">
                     <Sparkles size={12} className="text-[#FFFFE3]" />
                     {item.award}
                   </span>
                 </div>
 
                 {/* Title & Event */}
-                <h3 className="text-xl font-bold text-[#FFFFE3] group-hover:text-[#6D8196] transition-colors mb-1.5 leading-snug">
+                <h3 className="text-xl sm:text-2xl font-black text-[#FFFFE3] group-hover:text-[#A1B8D6] transition-colors mb-1.5 leading-snug">
                   {item.title}
                 </h3>
-                <p className="text-xs font-mono text-[#6D8196] font-semibold mb-4">
+                <p className="text-xs sm:text-sm font-mono font-bold text-[#A1B8D6] mb-4">
                   {item.event}
                 </p>
 
                 {/* Description */}
-                <p className="text-sm text-[#CBCBCB] leading-relaxed">
+                <p className="text-sm sm:text-base font-medium text-[#FFFFE3]/90 leading-relaxed">
                   {item.description}
                 </p>
               </div>

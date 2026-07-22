@@ -13,12 +13,12 @@ export const Hero: React.FC = () => {
       <div className="max-w-4xl mx-auto text-center relative z-10">
         {/* Status Pill */}
         <ContentReveal delay={0.1}>
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-[#141518] border border-[#4A4A4A] mb-8 shadow-lg hover:border-[#6D8196] transition-colors">
-            <span className="w-2 h-2 rounded-full bg-[#FFFFE3] animate-pulse" />
-            <span className="text-xs font-mono font-medium tracking-wide text-[#CBCBCB]">
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#141518] border border-[#4A4A4A] mb-8 shadow-lg hover:border-[#8DA4BE] transition-colors">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#FFFFE3] animate-pulse" />
+            <span className="text-sm sm:text-base md:text-lg font-mono font-bold tracking-wide text-[#FFFFE3]">
               AVAILABLE FOR NEW OPPORTUNITIES &amp; APPRENTICESHIP
             </span>
-            <Sparkles size={14} className="text-[#6D8196]" />
+            <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-[#8DA4BE]" />
           </div>
         </ContentReveal>
 
@@ -43,14 +43,14 @@ export const Hero: React.FC = () => {
 
         {/* Role */}
         <ContentReveal delay={0.3}>
-          <p className="text-sm sm:text-base md:text-lg font-mono font-medium text-[#6D8196] mb-6 tracking-tight">
+          <p className="text-base sm:text-lg md:text-xl font-mono font-bold text-[#A1B8D6] mb-6 tracking-tight">
             {role}
           </p>
         </ContentReveal>
 
         {/* Bio */}
         <ContentReveal delay={0.4}>
-          <p className="text-base sm:text-lg text-[#CBCBCB] max-w-2xl mx-auto mb-10 leading-relaxed">
+          <p className="text-base sm:text-lg md:text-xl font-medium text-[#FFFFE3] max-w-2xl mx-auto mb-10 leading-relaxed drop-shadow-sm">
             {bio}
           </p>
         </ContentReveal>
@@ -68,9 +68,9 @@ export const Hero: React.FC = () => {
             href={contacts.linkedin}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#141518] border border-[#4A4A4A] text-[#FFFFE3] font-mono font-medium text-sm hover:border-[#6D8196] transition-all"
+            className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl bg-[#141518] border border-[#4A4A4A] text-[#FFFFE3] font-mono font-medium text-sm hover:border-[#8DA4BE] transition-all"
           >
-            <LinkedinIcon size={16} className="text-[#6D8196]" />
+            <LinkedinIcon size={16} className="text-[#8DA4BE]" />
             <span>Connect &amp; Message Me</span>
           </a>
 
@@ -81,7 +81,7 @@ export const Hero: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="GitHub Profile"
-              className="p-3 rounded-xl bg-[#141518] border border-[#4A4A4A] text-[#CBCBCB] hover:text-[#FFFFE3] hover:border-[#6D8196] transition-all"
+              className="p-3 rounded-xl bg-[#141518] border border-[#4A4A4A] text-[#CBCBCB] hover:text-[#FFFFE3] hover:border-[#8DA4BE] transition-all"
             >
               <GithubIcon size={18} />
             </a>

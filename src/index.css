@@ -7,7 +7,7 @@
   --color-ink-charcoal: #4A4A4A;
   --color-ink-silver: #CBCBCB;
   --color-ink-ivory: #FFFFE3;
-  --color-ink-blue: #6D8196;
+  --color-ink-blue: #8DA4BE;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 }
 
@@ -39,7 +39,7 @@
   opacity: 0.48;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 65% 55% at 82% 18%, rgb(109 129 150 / 60%), transparent 70%),
+    radial-gradient(ellipse 65% 55% at 82% 18%, rgb(141 164 190 / 60%), transparent 70%),
     radial-gradient(ellipse 50% 45% at 18% 82%, rgb(74 74 74 / 90%), transparent 72%),
     linear-gradient(135deg, #0D0E10 12%, #252a31 54%, #0D0E10 100%);
   filter: saturate(1.10) contrast(1.05);
@@ -48,7 +48,7 @@
 @media (prefers-reduced-motion: reduce) {
   .portfolio-grainient {
     background:
-      radial-gradient(ellipse 65% 55% at 82% 18%, rgb(109 129 150 / 60%), transparent 70%),
+      radial-gradient(ellipse 65% 55% at 82% 18%, rgb(141 164 190 / 60%), transparent 70%),
       radial-gradient(ellipse 50% 45% at 18% 82%, rgb(74 74 74 / 90%), transparent 72%),
       linear-gradient(135deg, #0D0E10 12%, #252a31 54%, #0D0E10 100%);
   }
@@ -66,7 +66,7 @@
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #6D8196;
+  background: #8DA4BE;
 }
 
 @keyframes marquee {

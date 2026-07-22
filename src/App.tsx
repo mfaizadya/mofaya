@@ -11,11 +11,11 @@ import { Grainient } from './components/Grainient';
 
 export function App() {
   return (
-    <div className="portfolio-shell min-h-screen text-[#CBCBCB] selection:bg-[#6D8196] selection:text-[#FFFFE3]">
+    <div className="portfolio-shell min-h-screen text-[#CBCBCB] selection:bg-[#8DA4BE] selection:text-[#FFFFE3]">
       <div className="portfolio-grainient">
         <Grainient
           color1="#FFFFE3"
-          color2="#6D8196"
+          color2="#8DA4BE"
           color3="#4A4A4A"
           timeSpeed={0.12}
           colorBalance={0.0}

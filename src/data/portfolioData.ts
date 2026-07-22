@@ -116,7 +116,7 @@ export const PORTFOLIO_DATA = {
       metrics: "489 Commits",
       liveUrl: "https://logilearn.my.id",
       githubUrl: "https://github.com/mfaizadya/logilearn-admin-webapp",
-      accentStrip: "#6D8196"
+      accentStrip: "#8DA4BE"
     },
     {
       id: "neuronpath",
@@ -154,7 +154,7 @@ export const PORTFOLIO_DATA = {
       technologies: ["Godot Engine", "GDScript", "C#", "Game Design", "ASE Lab"],
       metrics: "ASE Lab Open Project",
       githubUrl: "https://github.com/mfaizadya",
-      accentStrip: "#6D8196"
+      accentStrip: "#8DA4BE"
     },
     {
       id: "codecraft-tasks",

@@ -69,11 +69,11 @@ export const Navbar: React.FC = () => {
               setIsMobileMenuOpen(false);
             }}
           >
-            <div className="w-8 h-8 rounded-lg bg-[#1D1E22] border border-[#4A4A4A] flex items-center justify-center text-[#FFFFE3] group-hover:border-[#6D8196] transition-colors">
+            <div className="w-8 h-8 rounded-lg bg-[#1D1E22] border border-[#4A4A4A] flex items-center justify-center text-[#FFFFE3] group-hover:border-[#8DA4BE] transition-colors">
               <Terminal size={16} />
             </div>
             <ScrambledText
-              className="text-[#FFFFE3] group-hover:text-[#6D8196] transition-colors font-bold"
+              className="text-[#FFFFE3] group-hover:text-[#A1B8D6] transition-colors font-bold"
               radius={72}
               duration={0.45}
               speed={0.35}
@@ -108,7 +108,7 @@ export const Navbar: React.FC = () => {
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle Navigation Menu"
-            className="md:hidden p-2 rounded-full bg-[#1D1E22] border border-[#4A4A4A] text-[#CBCBCB] hover:text-[#FFFFE3] hover:border-[#6D8196] transition-colors"
+            className="md:hidden p-2 rounded-full bg-[#1D1E22] border border-[#4A4A4A] text-[#CBCBCB] hover:text-[#FFFFE3] hover:border-[#8DA4BE] transition-colors"
           >
             {isMobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
           </button>
