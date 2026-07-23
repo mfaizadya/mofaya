@@ -1,5 +1,6 @@
 import { useLayoutEffect, useRef, useCallback, type ReactNode } from 'react';
 import Lenis from 'lenis';
+import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import './ScrollStack.css';
 
@@ -225,13 +226,13 @@ export const ScrollStack = ({
   const setupLenis = useCallback(() => {
     if (useWindowScroll) {
       const lenis = new Lenis({
-        duration: 1.2,
+        duration: 1.0,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        touchMultiplier: 2,
+        touchMultiplier: 1.5,
         infinite: false,
         wheelMultiplier: 1,
-        lerp: 0.1,
+        lerp: 0.12,
         syncTouch: true,
         syncTouchLerp: 0.075
       });
@@ -243,14 +244,17 @@ export const ScrollStack = ({
       window.addEventListener('scroll', handleScroll, { passive: true });
       window.addEventListener('resize', handleScroll);
 
-      const raf = (time: number) => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
+      const updateTicker = (time: number) => {
+        lenis.raf(time * 1000);
       };
-      animationFrameRef.current = requestAnimationFrame(raf);
+
+      gsap.ticker.add(updateTicker);
+      gsap.ticker.lagSmoothing(0);
 
       lenisRef.current = lenis;
-      return lenis;
+      return () => {
+        gsap.ticker.remove(updateTicker);
+      };
     } else {
       const scroller = scrollerRef.current;
       if (!scroller) return;
@@ -258,15 +262,15 @@ export const ScrollStack = ({
       const lenis = new Lenis({
         wrapper: scroller,
         content: scroller.querySelector('.scroll-stack-inner') as HTMLElement,
-        duration: 1.2,
+        duration: 1.0,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        touchMultiplier: 2,
+        touchMultiplier: 1.5,
         infinite: false,
         normalizeWheel: true,
         wheelMultiplier: 1,
         touchInertiaMultiplier: 35,
-        lerp: 0.1,
+        lerp: 0.12,
         syncTouch: true,
         syncTouchLerp: 0.075,
         touchInertia: 0.6
@@ -277,14 +281,17 @@ export const ScrollStack = ({
         ScrollTrigger.update();
       });
 
-      const raf = (time: number) => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
+      const updateTicker = (time: number) => {
+        lenis.raf(time * 1000);
       };
-      animationFrameRef.current = requestAnimationFrame(raf);
+
+      gsap.ticker.add(updateTicker);
+      gsap.ticker.lagSmoothing(0);
 
       lenisRef.current = lenis;
-      return lenis;
+      return () => {
+        gsap.ticker.remove(updateTicker);
+      };
     }
   }, [handleScroll, useWindowScroll]);
 
@@ -323,7 +330,7 @@ export const ScrollStack = ({
       card.style.webkitPerspective = '1000px';
     });
 
-    setupLenis();
+    const lenisCleanup = setupLenis();
 
     updateCardTransforms();
 
@@ -333,6 +340,7 @@ export const ScrollStack = ({
 
     return () => {
       clearTimeout(refreshTimer);
+      if (lenisCleanup) lenisCleanup();
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }

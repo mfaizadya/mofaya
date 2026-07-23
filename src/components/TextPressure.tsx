@@ -69,6 +69,9 @@ export const TextPressure: React.FC<TextPressureProps> = ({
   const mouseRef = useRef({ x: 0, y: 0 });
   const cursorRef = useRef({ x: 0, y: 0 });
 
+  const titleRectRef = useRef({ left: 0, top: 0, width: 0, height: 0 });
+  const charCentersRef = useRef<{ x: number; y: number }[]>([]);
+
   const [fontSize, setFontSize] = useState<number>(minFontSize);
   const [scaleY, setScaleY] = useState<number>(1);
   const [lineHeight, setLineHeight] = useState<number>(1);
@@ -78,6 +81,25 @@ export const TextPressure: React.FC<TextPressureProps> = ({
   const isIntersectingRef = useRef(true);
   const rafIdRef = useRef<number | null>(null);
 
+  const updateCharCenters = useCallback(() => {
+    if (!titleRef.current) return;
+    const rect = titleRef.current.getBoundingClientRect();
+    titleRectRef.current = {
+      left: rect.left,
+      top: rect.top,
+      width: rect.width,
+      height: rect.height,
+    };
+
+    charCentersRef.current = spansRef.current.map((span) => {
+      if (!span) return { x: 0, y: 0 };
+      return {
+        x: rect.left + span.offsetLeft + span.offsetWidth / 2,
+        y: rect.top + span.offsetTop + span.offsetHeight / 2,
+      };
+    });
+  }, []);
+
   const startAnim = useCallback(() => {
     if (rafIdRef.current !== null || !isIntersectingRef.current) return;
 
@@ -85,21 +107,19 @@ export const TextPressure: React.FC<TextPressureProps> = ({
       const dx = cursorRef.current.x - mouseRef.current.x;
       const dy = cursorRef.current.y - mouseRef.current.y;
 
-      mouseRef.current.x += dx / 15;
-      mouseRef.current.y += dy / 15;
+      mouseRef.current.x += dx * 0.18;
+      mouseRef.current.y += dy * 0.18;
 
-      if (titleRef.current) {
-        const titleRect = titleRef.current.getBoundingClientRect();
+      const titleRect = titleRectRef.current;
+
+      if (titleRect.width > 0) {
         const maxDist = titleRect.width / 2;
+        const centers = charCentersRef.current;
 
-        spansRef.current.forEach((span) => {
+        spansRef.current.forEach((span, i) => {
           if (!span) return;
-
-          // Single read per titleRect instead of reading every span bounding rect per frame
-          const charCenter = {
-            x: titleRect.left + span.offsetLeft + span.offsetWidth / 2,
-            y: titleRect.top + span.offsetTop + span.offsetHeight / 2,
-          };
+          const charCenter = centers[i];
+          if (!charCenter) return;
 
           const d = dist(mouseRef.current, charCenter);
 
@@ -119,7 +139,7 @@ export const TextPressure: React.FC<TextPressureProps> = ({
         });
       }
 
-      // If mouse lerp is virtually static, pause loop until next mousemove/scroll/touch
+      // Pause loop if cursor lerp has settled
       if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
         rafIdRef.current = null;
       } else {
@@ -144,9 +164,13 @@ export const TextPressure: React.FC<TextPressureProps> = ({
         startAnim();
       }
     };
+    const handleScrollOrResize = () => {
+      updateCharCenters();
+    };
 
     window.addEventListener('mousemove', handleMouseMove);
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
+    window.addEventListener('scroll', handleScrollOrResize, { passive: true });
 
     if (containerRef.current) {
       const { left, top, width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
@@ -156,6 +180,8 @@ export const TextPressure: React.FC<TextPressureProps> = ({
       cursorRef.current.y = mouseRef.current.y;
     }
 
+    updateCharCenters();
+
     // IntersectionObserver to pause loop when out of viewport
     const el = containerRef.current;
     let observer: IntersectionObserver | null = null;
@@ -164,6 +190,7 @@ export const TextPressure: React.FC<TextPressureProps> = ({
       observer = new IntersectionObserver(([entry]) => {
         isIntersectingRef.current = entry.isIntersecting;
         if (entry.isIntersecting) {
+          updateCharCenters();
           startAnim();
         } else if (rafIdRef.current !== null) {
           cancelAnimationFrame(rafIdRef.current);
@@ -178,13 +205,14 @@ export const TextPressure: React.FC<TextPressureProps> = ({
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('scroll', handleScrollOrResize);
       if (observer) observer.disconnect();
       if (rafIdRef.current !== null) {
         cancelAnimationFrame(rafIdRef.current);
         rafIdRef.current = null;
       }
     };
-  }, [startAnim]);
+  }, [startAnim, updateCharCenters]);
 
   const setSize = useCallback(() => {
     if (!containerRef.current || !titleRef.current) return;
@@ -207,8 +235,9 @@ export const TextPressure: React.FC<TextPressureProps> = ({
         setScaleY(yRatio);
         setLineHeight(yRatio);
       }
+      updateCharCenters();
     });
-  }, [chars.length, minFontSize, scale]);
+  }, [chars.length, minFontSize, scale, updateCharCenters]);
 
   useEffect(() => {
     const debouncedSetSize = debounce(setSize, 100);
@@ -295,6 +324,8 @@ export const TextPressure: React.FC<TextPressureProps> = ({
             style={{
               display: 'inline-block',
               color: stroke || gradient ? undefined : textColor,
+              willChange: 'font-variation-settings',
+              transform: 'translateZ(0)',
             }}
           >
             {char === ' ' ? '\u00A0' : char}

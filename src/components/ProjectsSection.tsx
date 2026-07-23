@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PORTFOLIO_DATA, type ProjectItem } from '../data/portfolioData';
 import { ExternalLink, Terminal, X, CheckCircle2, GitCommit, Layers } from 'lucide-react';
 import { GithubIcon } from './Icons';
@@ -11,6 +11,17 @@ const categories = ['Semua', 'AI/ML', 'Fullstack', 'Game Dev', 'Web Dev'] as con
 export const ProjectsSection: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [selectedProject]);
 
   const filteredProjects = selectedCategory === 'Semua'
     ? PORTFOLIO_DATA.projects
@@ -165,7 +176,8 @@ export const ProjectsSection: React.FC = () => {
           onClick={() => setSelectedProject(null)}
         >
           <div
-            className="bg-ink-surface border border-ink-charcoal rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto shadow-2xl relative animate-in zoom-in-95"
+            data-lenis-prevent="true"
+            className="bg-ink-surface border border-ink-charcoal rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto overscroll-contain shadow-2xl relative animate-in zoom-in-95"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Top Color Accent */}
