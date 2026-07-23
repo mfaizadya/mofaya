@@ -125,7 +125,7 @@ export const ScrollStack = ({
       const triggerEnd = cardTop - scaleEndPositionPx;
       const pinStart = cardTop - stackPositionPx - itemStackDistance * i;
       const pinEnd = useWindowScroll
-        ? endElementTop - containerHeight
+        ? endElementTop - containerHeight * 0.72
         : endElementTop - containerHeight / 2;
 
       const scaleProgress = calculateProgress(scrollTop, triggerStart, triggerEnd);
