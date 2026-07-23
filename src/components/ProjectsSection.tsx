@@ -88,6 +88,8 @@ export const ProjectsSection: React.FC = () => {
                     <img
                       src={project.imageUrl}
                       alt={project.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink-surface via-ink-surface/20 to-transparent opacity-80" />
@@ -178,6 +180,8 @@ export const ProjectsSection: React.FC = () => {
                 <img
                   src={selectedProject.imageUrl}
                   alt={selectedProject.title}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-surface via-transparent to-transparent opacity-60" />

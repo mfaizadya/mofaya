@@ -32,9 +32,9 @@ function AppContent() {
     <div className="portfolio-shell min-h-screen text-ink-silver selection:bg-ink-blue selection:text-ink-ivory">
       <div className="portfolio-grainient">
         <Grainient
-          color1={theme === 'light' ? '#FCEFBA' : '#FFFFE3'}
-          color2={theme === 'light' ? '#3D5A80' : '#8DA4BE'}
-          color3={theme === 'light' ? '#BAC7D5' : '#4A4A4A'}
+          color1={theme === 'light' ? '#FDE68A' : '#FFFFE3'}
+          color2={theme === 'light' ? '#2563EB' : '#8DA4BE'}
+          color3={theme === 'light' ? '#94A3B8' : '#4A4A4A'}
           timeSpeed={0.12}
           colorBalance={0.0}
           warpStrength={1.0}
@@ -45,12 +45,12 @@ function AppContent() {
           blendSoftness={0.06}
           rotationAmount={350.0}
           noiseScale={1.8}
-          grainAmount={theme === 'light' ? 0.08 : 0.06}
+          grainAmount={theme === 'light' ? 0.10 : 0.06}
           grainScale={1.5}
           grainAnimated={true}
-          contrast={theme === 'light' ? 1.6 : 1.4}
+          contrast={theme === 'light' ? 1.9 : 1.4}
           gamma={1.1}
-          saturation={theme === 'light' ? 1.4 : 1.2}
+          saturation={theme === 'light' ? 1.75 : 1.2}
           centerX={0.0}
           centerY={0.0}
           zoom={0.8}

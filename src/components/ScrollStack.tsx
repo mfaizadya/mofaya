@@ -85,19 +85,25 @@ export const ScrollStack = ({
     }
   }, [useWindowScroll]);
 
+  const offsetCacheRef = useRef<WeakMap<HTMLElement, number>>(new WeakMap());
+
   const getElementOffset = useCallback(
     (element: HTMLElement) => {
+      const cached = offsetCacheRef.current.get(element);
+      if (cached !== undefined) return cached;
+
+      let top = 0;
       if (useWindowScroll) {
-        let top = 0;
         let current: HTMLElement | null = element;
         while (current) {
           top += current.offsetTop;
           current = current.offsetParent as HTMLElement | null;
         }
-        return top;
       } else {
-        return element.offsetTop;
+        top = element.offsetTop;
       }
+      offsetCacheRef.current.set(element, top);
+      return top;
     },
     [useWindowScroll]
   );
@@ -297,6 +303,7 @@ export const ScrollStack = ({
         : scroller.querySelectorAll('.scroll-stack-card')
     ) as HTMLElement[];
 
+    offsetCacheRef.current = new WeakMap();
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
     transformsCache.clear();

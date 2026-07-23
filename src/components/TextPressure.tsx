@@ -75,16 +75,73 @@ export const TextPressure: React.FC<TextPressureProps> = ({
 
   const chars = useMemo(() => text.split(''), [text]);
 
+  const isIntersectingRef = useRef(true);
+  const rafIdRef = useRef<number | null>(null);
+
+  const startAnim = useCallback(() => {
+    if (rafIdRef.current !== null || !isIntersectingRef.current) return;
+
+    const animate = () => {
+      const dx = cursorRef.current.x - mouseRef.current.x;
+      const dy = cursorRef.current.y - mouseRef.current.y;
+
+      mouseRef.current.x += dx / 15;
+      mouseRef.current.y += dy / 15;
+
+      if (titleRef.current) {
+        const titleRect = titleRef.current.getBoundingClientRect();
+        const maxDist = titleRect.width / 2;
+
+        spansRef.current.forEach((span) => {
+          if (!span) return;
+
+          // Single read per titleRect instead of reading every span bounding rect per frame
+          const charCenter = {
+            x: titleRect.left + span.offsetLeft + span.offsetWidth / 2,
+            y: titleRect.top + span.offsetTop + span.offsetHeight / 2,
+          };
+
+          const d = dist(mouseRef.current, charCenter);
+
+          const wdth = width ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
+          const wght = weight ? Math.floor(getAttr(d, maxDist, 100, 900)) : 400;
+          const italVal = italic ? getAttr(d, maxDist, 0, 1).toFixed(2) : '0';
+          const alphaVal = alpha ? getAttr(d, maxDist, 0, 1).toFixed(2) : '1';
+
+          const newFontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
+
+          if (span.style.fontVariationSettings !== newFontVariationSettings) {
+            span.style.fontVariationSettings = newFontVariationSettings;
+          }
+          if (alpha && span.style.opacity !== alphaVal) {
+            span.style.opacity = alphaVal;
+          }
+        });
+      }
+
+      // If mouse lerp is virtually static, pause loop until next mousemove/scroll/touch
+      if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+        rafIdRef.current = null;
+      } else {
+        rafIdRef.current = requestAnimationFrame(animate);
+      }
+    };
+
+    rafIdRef.current = requestAnimationFrame(animate);
+  }, [width, weight, italic, alpha]);
+
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       cursorRef.current.x = e.clientX;
       cursorRef.current.y = e.clientY;
+      startAnim();
     };
     const handleTouchMove = (e: TouchEvent) => {
       if (e.touches.length > 0) {
         const t = e.touches[0];
         cursorRef.current.x = t.clientX;
         cursorRef.current.y = t.clientY;
+        startAnim();
       }
     };
 
@@ -92,18 +149,42 @@ export const TextPressure: React.FC<TextPressureProps> = ({
     window.addEventListener('touchmove', handleTouchMove, { passive: true });
 
     if (containerRef.current) {
-      const { left, top, width, height } = containerRef.current.getBoundingClientRect();
-      mouseRef.current.x = left + width / 2;
-      mouseRef.current.y = top + height / 2;
+      const { left, top, width: containerW, height: containerH } = containerRef.current.getBoundingClientRect();
+      mouseRef.current.x = left + containerW / 2;
+      mouseRef.current.y = top + containerH / 2;
       cursorRef.current.x = mouseRef.current.x;
       cursorRef.current.y = mouseRef.current.y;
     }
 
+    // IntersectionObserver to pause loop when out of viewport
+    const el = containerRef.current;
+    let observer: IntersectionObserver | null = null;
+
+    if (el) {
+      observer = new IntersectionObserver(([entry]) => {
+        isIntersectingRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          startAnim();
+        } else if (rafIdRef.current !== null) {
+          cancelAnimationFrame(rafIdRef.current);
+          rafIdRef.current = null;
+        }
+      });
+      observer.observe(el);
+    }
+
+    startAnim();
+
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('touchmove', handleTouchMove);
+      if (observer) observer.disconnect();
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
     };
-  }, []);
+  }, [startAnim]);
 
   const setSize = useCallback(() => {
     if (!containerRef.current || !titleRef.current) return;
@@ -135,50 +216,6 @@ export const TextPressure: React.FC<TextPressureProps> = ({
     window.addEventListener('resize', debouncedSetSize);
     return () => window.removeEventListener('resize', debouncedSetSize);
   }, [setSize]);
-
-  useEffect(() => {
-    let rafId: number;
-    const animate = () => {
-      mouseRef.current.x += (cursorRef.current.x - mouseRef.current.x) / 15;
-      mouseRef.current.y += (cursorRef.current.y - mouseRef.current.y) / 15;
-
-      if (titleRef.current) {
-        const titleRect = titleRef.current.getBoundingClientRect();
-        const maxDist = titleRect.width / 2;
-
-        spansRef.current.forEach((span) => {
-          if (!span) return;
-
-          const rect = span.getBoundingClientRect();
-          const charCenter = {
-            x: rect.x + rect.width / 2,
-            y: rect.y + rect.height / 2,
-          };
-
-          const d = dist(mouseRef.current, charCenter);
-
-          const wdth = width ? Math.floor(getAttr(d, maxDist, 5, 200)) : 100;
-          const wght = weight ? Math.floor(getAttr(d, maxDist, 100, 900)) : 400;
-          const italVal = italic ? getAttr(d, maxDist, 0, 1).toFixed(2) : '0';
-          const alphaVal = alpha ? getAttr(d, maxDist, 0, 1).toFixed(2) : '1';
-
-          const newFontVariationSettings = `'wght' ${wght}, 'wdth' ${wdth}, 'ital' ${italVal}`;
-
-          if (span.style.fontVariationSettings !== newFontVariationSettings) {
-            span.style.fontVariationSettings = newFontVariationSettings;
-          }
-          if (alpha && span.style.opacity !== alphaVal) {
-            span.style.opacity = alphaVal;
-          }
-        });
-      }
-
-      rafId = requestAnimationFrame(animate);
-    };
-
-    animate();
-    return () => cancelAnimationFrame(rafId);
-  }, [width, weight, italic, alpha]);
 
   const styleElement = useMemo(() => {
     return (
