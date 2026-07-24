@@ -2,9 +2,11 @@ import React from 'react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { Terminal, MapPin } from 'lucide-react';
 import { GithubIcon } from './Icons';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Footer: React.FC = () => {
-  const { name, contacts } = PORTFOLIO_DATA.hero;
+  const { lang } = useLanguage();
+  const { name, contacts } = PORTFOLIO_DATA[lang].hero;
 
   return (
     <footer id="contact" className="border-t border-ink-charcoal/50 bg-ink-bg py-8">

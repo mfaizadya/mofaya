@@ -3,9 +3,12 @@ import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { Briefcase, GraduationCap, CheckCircle2, Calendar } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 import { ContentReveal } from './ContentReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 export const ExperienceSection: React.FC = () => {
-  const { experiences, education } = PORTFOLIO_DATA;
+  const { lang } = useLanguage();
+  const currentData = PORTFOLIO_DATA[lang];
+  const { experiences, education, labels } = currentData;
 
   return (
     <section id="experience" className="py-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -13,7 +16,7 @@ export const ExperienceSection: React.FC = () => {
       <div className="mb-10">
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-ink-surface border border-ink-charcoal mb-4">
           <Briefcase className="w-4 h-4 sm:w-5 sm:h-5 text-ink-blue" />
-          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">CAREER &amp; APPRENTICESHIP TIMELINE</span>
+          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">{labels.experience.badge}</span>
         </div>
         <ScrollReveal
           as="h2"
@@ -22,7 +25,7 @@ export const ExperienceSection: React.FC = () => {
           blurStrength={10}
           textClassName="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-ink-ivory tracking-tight leading-none mt-1"
         >
-          Pengalaman & Apprenticeship
+          {labels.experience.title}
         </ScrollReveal>
       </div>
 
@@ -88,7 +91,7 @@ export const ExperienceSection: React.FC = () => {
             blurStrength={10}
             textClassName="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-ink-ivory tracking-tight leading-none mt-1"
           >
-            Pendidikan
+            {labels.experience.educationTitle}
           </ScrollReveal>
         </div>
 
@@ -99,7 +102,7 @@ export const ExperienceSection: React.FC = () => {
                 {education.institution}
               </h4>
               <span className="text-xs sm:text-sm font-mono text-ink-blue font-bold px-3 py-1 rounded bg-ink-card border border-ink-charcoal/40">
-                IPK {education.gpa}
+                {labels.experience.gpaLabel} {education.gpa}
               </span>
             </div>
             <p className="text-sm sm:text-base font-mono font-bold text-ink-ivory mb-2">
@@ -111,7 +114,7 @@ export const ExperienceSection: React.FC = () => {
             </p>
             <div className="pt-4 border-t border-ink-charcoal/50">
               <span className="text-xs sm:text-sm font-mono font-bold text-ink-blue uppercase tracking-wider block mb-1">
-                Aktivitas &amp; Kontribusi
+                {lang === 'id' ? 'Aktivitas & Kontribusi' : 'Activities & Involvement'}
               </span>
               <p className="text-sm sm:text-base font-medium text-ink-ivory/90">
                 {education.activities}

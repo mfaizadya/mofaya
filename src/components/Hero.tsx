@@ -5,9 +5,11 @@ import { GithubIcon, LinkedinIcon } from './Icons';
 import { ContentReveal } from './ContentReveal';
 import { TextPressure } from './TextPressure';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Hero: React.FC = () => {
-  const { name, role, bio, contacts } = PORTFOLIO_DATA.hero;
+  const { lang } = useLanguage();
+  const { name, role, bio, statusPill, ctaExplore, contacts } = PORTFOLIO_DATA[lang].hero;
   const { theme } = useTheme();
 
   return (
@@ -18,7 +20,7 @@ export const Hero: React.FC = () => {
           <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-ink-surface border border-ink-charcoal mb-8 shadow-lg hover:border-ink-blue transition-colors">
             <span className="w-2.5 h-2.5 rounded-full bg-ink-ivory animate-pulse" />
             <span className="text-sm sm:text-base md:text-lg font-mono font-bold tracking-wide text-ink-ivory">
-              AVAILABLE FOR NEW OPPORTUNITIES &amp; APPRENTICESHIP
+              {statusPill}
             </span>
             <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 text-ink-blue" />
           </div>
@@ -69,7 +71,7 @@ export const Hero: React.FC = () => {
             href="#projects"
             className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl bg-ink-ivory text-ink-surface font-mono font-bold text-sm hover:bg-ink-ivory/90 hover:shadow-lg hover:shadow-ink-ivory/10 transition-all"
           >
-            <span>Jelajahi Proyek Unggulan</span>
+            <span>{ctaExplore}</span>
             <ArrowRight size={16} />
           </a>
           <a

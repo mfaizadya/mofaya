@@ -3,16 +3,19 @@ import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { Award, ExternalLink } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 import { ContentReveal } from './ContentReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 export const Certifications: React.FC = () => {
-  const { certifications } = PORTFOLIO_DATA;
+  const { lang } = useLanguage();
+  const currentData = PORTFOLIO_DATA[lang];
+  const { certifications, labels } = currentData;
 
   return (
     <section id="certifications" className="py-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-ink-charcoal/40">
       <div className="mb-8">
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-ink-surface border border-ink-charcoal mb-4">
           <Award className="w-4 h-4 sm:w-5 sm:h-5 text-ink-blue" />
-          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">OFFICIAL CREDENTIALS</span>
+          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">{labels.certifications.badge}</span>
         </div>
         <ScrollReveal
           as="h2"
@@ -21,7 +24,7 @@ export const Certifications: React.FC = () => {
           blurStrength={10}
           textClassName="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-ink-ivory tracking-tight leading-none mt-1"
         >
-          Sertifikasi Resmi
+          {labels.certifications.title}
         </ScrollReveal>
       </div>
 

@@ -3,28 +3,31 @@ import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { Cpu, Wrench, Users } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 import { ContentReveal } from './ContentReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 export const SkillsSection: React.FC = () => {
-  const { hardSkills, toolsAndCloud, softSkills } = PORTFOLIO_DATA.skills;
+  const { lang } = useLanguage();
+  const currentData = PORTFOLIO_DATA[lang];
+  const { skills, labels } = currentData;
 
   const categories = [
     {
-      title: 'Hard Skills & Languages',
+      title: skills.hardSkillsTitle,
       icon: <Cpu className="text-ink-ivory" size={20} />,
-      items: hardSkills,
-      description: 'Bahasa pemrograman & framework inti'
+      items: skills.hardSkills,
+      description: skills.hardSkillsDesc
     },
     {
-      title: 'Tools, Cloud & DevOps',
+      title: skills.toolsTitle,
       icon: <Wrench className="text-ink-blue" size={20} />,
-      items: toolsAndCloud,
-      description: 'Infrastruktur cloud, CI/CD, dan alat desain'
+      items: skills.toolsAndCloud,
+      description: skills.toolsDesc
     },
     {
-      title: 'Soft Skills & Leadership',
+      title: skills.softSkillsTitle,
       icon: <Users className="text-ink-silver" size={20} />,
-      items: softSkills,
-      description: 'Keahlian kolaborasi tim & manajemen proyek'
+      items: skills.softSkills,
+      description: skills.softSkillsDesc
     }
   ];
 
@@ -32,7 +35,7 @@ export const SkillsSection: React.FC = () => {
     <section id="skills" className="py-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="mb-8">
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-ink-surface border border-ink-charcoal mb-4">
-          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">TECHNICAL PROFICIENCY</span>
+          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">{labels.skills.badge}</span>
         </div>
         <ScrollReveal
           as="h2"
@@ -41,7 +44,7 @@ export const SkillsSection: React.FC = () => {
           blurStrength={10}
           textClassName="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-ink-ivory tracking-tight leading-none mt-1"
         >
-          Keahlian Teknis & Kompetensi
+          {labels.skills.title}
         </ScrollReveal>
       </div>
 

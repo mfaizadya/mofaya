@@ -3,9 +3,12 @@ import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { Trophy, Sparkles, ExternalLink } from 'lucide-react';
 import { ScrollReveal } from './ScrollReveal';
 import { ContentReveal } from './ContentReveal';
+import { useLanguage } from '../context/LanguageContext';
 
 export const AchievementsSection: React.FC = () => {
-  const { achievements } = PORTFOLIO_DATA;
+  const { lang } = useLanguage();
+  const currentData = PORTFOLIO_DATA[lang];
+  const { achievements, labels } = currentData;
 
   if (!achievements || achievements.length === 0) return null;
 
@@ -15,7 +18,7 @@ export const AchievementsSection: React.FC = () => {
       <div className="mb-10">
         <div className="inline-flex items-center gap-2.5 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-ink-surface border border-ink-charcoal mb-4">
           <Trophy className="w-4 h-4 sm:w-5 sm:h-5 text-ink-blue" />
-          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">HONORS &amp; RECOGNITION</span>
+          <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">{labels.achievements.badge}</span>
         </div>
         <ScrollReveal
           as="h2"
@@ -24,7 +27,7 @@ export const AchievementsSection: React.FC = () => {
           blurStrength={10}
           textClassName="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-ink-ivory tracking-tight leading-none mt-1"
         >
-          Prestasi &amp; Penghargaan
+          {labels.achievements.title}
         </ScrollReveal>
       </div>
 
@@ -73,7 +76,7 @@ export const AchievementsSection: React.FC = () => {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-ink-ivory/10 border border-ink-ivory/20 text-ink-ivory hover:bg-ink-ivory hover:text-ink-surface font-bold transition-all shadow-sm"
                   >
-                    <span>Lihat Sertifikat</span>
+                    <span>{lang === 'id' ? 'Lihat Sertifikat' : 'View Certificate'}</span>
                     <ExternalLink size={13} />
                   </a>
                 ) : (

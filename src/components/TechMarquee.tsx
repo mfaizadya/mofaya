@@ -1,9 +1,11 @@
 import React from 'react';
 import { PORTFOLIO_DATA } from '../data/portfolioData';
 import { Cpu } from 'lucide-react';
+import { useLanguage } from '../context/LanguageContext';
 
 export const TechMarquee: React.FC = () => {
-  const items = PORTFOLIO_DATA.techMarquee;
+  const { lang } = useLanguage();
+  const items = PORTFOLIO_DATA[lang].techMarquee;
   const doubledItems = [...items, ...items];
 
   return (

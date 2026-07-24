@@ -1,27 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Terminal, Sun, Moon } from 'lucide-react';
+import { Menu, X, Terminal, Sun, Moon, Globe } from 'lucide-react';
 import { ScrambledText } from './ScrambledText';
 import { useTheme } from '../context/ThemeContext';
+import { useLanguage } from '../context/LanguageContext';
+import { PORTFOLIO_DATA } from '../data/portfolioData';
 
 interface NavItem {
   label: string;
   href: string;
 }
 
-const navItems: NavItem[] = [
-  { label: 'Home', href: '#home' },
-  { label: 'Proyek', href: '#projects' },
-  { label: 'Pengalaman', href: '#experience' },
-  { label: 'Prestasi', href: '#achievements' },
-  { label: 'Skills', href: '#skills' },
-  { label: 'Sertifikasi', href: '#certifications' },
-];
-
 export const Navbar: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
+  const { lang, toggleLang } = useLanguage();
   const [activeSection, setActiveSection] = useState<string>('#home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState<boolean>(false);
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  const labels = PORTFOLIO_DATA[lang].labels.nav;
+
+  const navItems: NavItem[] = [
+    { label: labels.home, href: '#home' },
+    { label: labels.projects, href: '#projects' },
+    { label: labels.experience, href: '#experience' },
+    { label: labels.achievements, href: '#achievements' },
+    { label: labels.skills, href: '#skills' },
+    { label: labels.certifications, href: '#certifications' },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -106,8 +111,17 @@ export const Navbar: React.FC = () => {
             })}
           </nav>
 
-          {/* Right Actions: Theme Toggle & Mobile Menu */}
+          {/* Right Actions: Language Toggle, Theme Toggle & Mobile Menu */}
           <div className="flex items-center gap-2">
+            <button
+              onClick={toggleLang}
+              aria-label="Toggle Language"
+              className="px-2.5 py-1.5 rounded-full bg-ink-card border border-ink-charcoal text-ink-silver hover:text-ink-ivory hover:border-ink-blue transition-colors flex items-center gap-1.5 font-mono text-xs cursor-pointer"
+            >
+              <Globe size={14} className="text-ink-blue" />
+              <span className="font-bold">{lang === 'id' ? 'ID' : 'EN'}</span>
+            </button>
+
             <button
               onClick={toggleTheme}
               aria-label="Toggle Theme"

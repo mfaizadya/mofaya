@@ -12,6 +12,7 @@ import { Footer } from './components/Footer';
 import { Grainient } from './components/Grainient';
 import { ClickSpark } from './components/ClickSpark';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
+import { LanguageProvider } from './context/LanguageContext';
 
 function AppContent() {
   const { theme } = useTheme();
@@ -84,7 +85,9 @@ function AppContent() {
 export function App() {
   return (
     <ThemeProvider>
-      <AppContent />
+      <LanguageProvider>
+        <AppContent />
+      </LanguageProvider>
     </ThemeProvider>
   );
 }

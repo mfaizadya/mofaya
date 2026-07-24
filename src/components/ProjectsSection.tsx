@@ -5,12 +5,22 @@ import { GithubIcon } from './Icons';
 import { ScrollReveal } from './ScrollReveal';
 import { ContentReveal } from './ContentReveal';
 import { ScrollStack, ScrollStackItem } from './ScrollStack';
-
-const categories = ['Semua', 'AI/ML', 'Fullstack', 'Game Dev', 'Web Dev'] as const;
+import { useLanguage } from '../context/LanguageContext';
 
 export const ProjectsSection: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string>('Semua');
+  const { lang } = useLanguage();
+  const currentData = PORTFOLIO_DATA[lang];
+  const { projects, labels } = currentData;
+
+  const categories = [labels.projects.allCategory, 'AI/ML', 'Fullstack', 'Game Dev', 'Web Dev'] as const;
+
+  const [selectedCategory, setSelectedCategory] = useState<string>(labels.projects.allCategory);
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+
+  // Sync category state when language switches
+  useEffect(() => {
+    setSelectedCategory(labels.projects.allCategory);
+  }, [lang, labels.projects.allCategory]);
 
   useEffect(() => {
     if (selectedProject) {
@@ -23,9 +33,9 @@ export const ProjectsSection: React.FC = () => {
     };
   }, [selectedProject]);
 
-  const filteredProjects = selectedCategory === 'Semua'
-    ? PORTFOLIO_DATA.projects
-    : PORTFOLIO_DATA.projects.filter((p) => p.category === selectedCategory);
+  const filteredProjects = (selectedCategory === 'Semua' || selectedCategory === 'All')
+    ? projects
+    : projects.filter((p) => p.category === selectedCategory);
 
   return (
     <section id="projects" className="py-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
@@ -34,7 +44,7 @@ export const ProjectsSection: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-2.5 px-4 py-1.5 sm:px-5 sm:py-2 rounded-full bg-ink-surface border border-ink-charcoal mb-4">
             <Terminal className="w-4 h-4 sm:w-5 sm:h-5 text-ink-blue" />
-            <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">FEATURED WORK &amp; CAPSTONE</span>
+            <span className="text-sm sm:text-base md:text-lg font-mono font-bold text-ink-ivory tracking-wide">{labels.projects.badge}</span>
           </div>
           <ScrollReveal
             as="h2"
@@ -43,7 +53,7 @@ export const ProjectsSection: React.FC = () => {
             blurStrength={10}
             textClassName="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-ink-ivory tracking-tight leading-none mt-1"
           >
-            Proyek Unggulan
+            {labels.projects.title}
           </ScrollReveal>
         </div>
 
@@ -56,9 +66,9 @@ export const ProjectsSection: React.FC = () => {
                 <button
                   key={cat}
                   onClick={() => setSelectedCategory(cat)}
-                  className={`px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all ${
+                  className={`px-4 py-2 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
                     isActive
-                      ? 'bg-ink-blue text-ink-surface shadow-md shadow-ink-blue/20'
+                      ? 'bg-ink-blue text-ink-surface shadow-md shadow-ink-blue/20 font-bold'
                       : 'bg-ink-surface border border-ink-charcoal text-ink-silver hover:text-ink-ivory hover:border-ink-blue'
                   }`}
                 >
@@ -159,7 +169,7 @@ export const ProjectsSection: React.FC = () => {
                       )}
                     </div>
                     <span className="text-ink-blue group-hover:underline flex items-center gap-1 font-semibold">
-                      Detail Spesifikasi &rarr;
+                      {labels.projects.viewDetails}
                     </span>
                   </div>
                 </div>
@@ -239,7 +249,7 @@ export const ProjectsSection: React.FC = () => {
               <div className="mb-6">
                 <h4 className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-ink-ivory mb-3 flex items-center gap-1.5">
                   <Layers size={15} className="text-ink-blue" />
-                  Kontribusi &amp; Dampak Teknis
+                  {labels.projects.contributionsHeader}
                 </h4>
                 <ul className="space-y-2.5">
                   {selectedProject.contributions.map((c, i) => (
@@ -254,7 +264,7 @@ export const ProjectsSection: React.FC = () => {
               {/* Full Technologies list */}
               <div className="mb-8">
                 <h4 className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-ink-ivory mb-3">
-                  Tech Stack &amp; Tools
+                  {labels.projects.techStackHeader}
                 </h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedProject.technologies.map((t) => (
@@ -278,7 +288,7 @@ export const ProjectsSection: React.FC = () => {
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-ink-ivory text-ink-surface font-mono font-bold text-xs hover:bg-ink-ivory/90 transition-all"
                   >
                     <GithubIcon size={15} />
-                    <span>Lihat Repository</span>
+                    <span>{labels.projects.viewRepo}</span>
                   </a>
                 )}
                 {selectedProject.liveUrl && (
@@ -289,7 +299,7 @@ export const ProjectsSection: React.FC = () => {
                     className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-ink-blue text-ink-surface font-mono font-bold text-xs hover:bg-ink-blue/90 transition-all"
                   >
                     <ExternalLink size={15} />
-                    <span>Live Demo Website</span>
+                    <span>{labels.projects.liveDemo}</span>
                   </a>
                 )}
               </div>
