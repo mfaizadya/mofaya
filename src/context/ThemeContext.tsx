@@ -7,14 +7,15 @@ interface ThemeContextType {
   toggleTheme: () => void;
 }
 
+// ponytail: initial theme state defaults to light mode
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'dark',
+  theme: 'light',
   toggleTheme: () => {},
 });
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [theme, setTheme] = useState<Theme>(() => {
-    return (localStorage.getItem('theme') as Theme) || 'dark';
+    return (localStorage.getItem('theme') as Theme) || 'light';
   });
 
   useEffect(() => {

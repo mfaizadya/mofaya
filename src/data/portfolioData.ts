@@ -95,7 +95,7 @@ export const PORTFOLIO_DATA = {
       technologies: ["React", "Node.js", "AWS", "Vercel", "Machine Learning", "Tailwind CSS"],
       metrics: "89 Commits",
       githubUrl: "https://github.com/mfaizadya/AI-Learning-Insight",
-      accentStrip: "#FFFFE3"
+      accentStrip: "#b19cd9"
     },
     {
       id: "logilearn",
@@ -116,7 +116,7 @@ export const PORTFOLIO_DATA = {
       metrics: "489 Commits",
       liveUrl: "https://logilearn.my.id",
       githubUrl: "https://github.com/mfaizadya/logilearn-admin-webapp",
-      accentStrip: "#8DA4BE"
+      accentStrip: "#1e90ff "
     },
     {
       id: "neuronpath",
@@ -135,7 +135,7 @@ export const PORTFOLIO_DATA = {
       technologies: ["React", "OpenRouter AI", "Firebase", "Tailwind CSS", "SaaS"],
       metrics: "Live Deployed",
       githubUrl: "https://github.com/mfaizadya/NeuronPath",
-      accentStrip: "#FFFFE3"
+      accentStrip: "#3cb371"
     },
     {
       id: "gamedev-lab",
