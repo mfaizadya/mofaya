@@ -243,7 +243,7 @@ export const PORTFOLIO_DATA = {
       "Oracle SQL", "PHP", "Dart & Flutter", "GDScript", "Python"
     ],
     toolsAndCloud: [
-      "Docker", "Git & GitHub", "GitHub Actions (CI/CD)", "AWS (EC2, RDS)",
+      "Ansible", "Prometheus", "Grafana", "Docker", "GitOps", "Git & GitHub", "GitHub Actions (CI/CD)", "AWS (EC2, RDS)",
       "Firebase", "Vercel", "Tailwind CSS", "Shadcn UI", "SonarCloud",
       "Postman", "Figma"
     ],
